@@ -12,7 +12,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $query = "SELECT * FROM admin WHERE email = :email";
+    $query = "
+        SELECT 
+            admin.admin_id, 
+            admin.email, 
+            admin.password, 
+            person.first_name, 
+            person.last_name 
+        FROM 
+            admin 
+        JOIN 
+            person 
+        ON 
+            admin.person_id = person.person_id 
+        WHERE 
+            admin.email = :email
+    ";
+
     $stmt = $database->prepare($query);
     $stmt->bindParam(':email', $email);
     $stmt->execute();
@@ -22,8 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($admin) {
         if ($admin['password'] == $password) {
             session_start();
-            $_SESSION['admin_id'] = $admin['ID'];
-            $_SESSION['admin_name'] = $admin['firstName'] . ' ' . $admin['lastName'];
+            $_SESSION['admin_id'] = $admin['admin_id'];
+            $_SESSION['admin_name'] = $admin['first_name'] . ' ' . $admin['last_name'];
             header("Location:dashboard.php");
             exit();
         } else {

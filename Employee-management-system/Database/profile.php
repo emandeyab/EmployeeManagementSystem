@@ -23,9 +23,27 @@ try {
 // Retrieve user data based on the session admin ID
 $admin_id = $_SESSION['admin_id']; // Get the admin ID from session
 
-$query = "SELECT * FROM admin WHERE ID = :ID"; // Replace with your table name
+$query = "
+    SELECT 
+        admin.admin_id, 
+        admin.email, 
+        person.first_name, 
+        person.last_name, 
+        person.phone_number AS phone, 
+        person.address, 
+        person.job_title AS job, 
+        person.salary 
+    FROM 
+        admin 
+    JOIN 
+        person 
+    ON 
+        admin.person_id = person.person_id 
+    WHERE 
+        admin.admin_id = :admin_id
+";
 $stmt = $database->prepare($query);
-$stmt->bindParam(':ID', $admin_id, PDO::PARAM_INT);
+$stmt->bindParam(':admin_id', $admin_id, PDO::PARAM_INT);
 $stmt->execute();
 
 // Fetch admin data
@@ -33,13 +51,13 @@ $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($admin) {
     // Assign variables for easy access
-    $id = $admin['ID'];
-    $fname = $admin['firstName'];
-    $lname = $admin['lastName'];
+    $id = $admin['admin_id'];
+    $fname = $admin['first_name'];
+    $lname = $admin['last_name'];
     $email = $admin['email'];
     $phone = $admin['phone'];
     $address = $admin['address'];
-    $job = $admin['jobTitle'];
+    $job = $admin['job'];
     $salary = $admin['salary'];
 } else {
     echo "Admin not found.";
@@ -55,23 +73,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
     $updated_salary = $_POST['salary'];
 
     // Update the database with the new values
-    $update_query = "UPDATE admin SET 
-                        firstName = :firstName, 
-                        lastName = :lastName, 
-                        email = :email, 
-                        phone = :phone, 
-                        address = :address, 
-                        salary = :salary
-                    WHERE ID = :ID";
+    $update_query = "
+        UPDATE person
+        SET 
+            first_name = :first_name, 
+            last_name = :last_name, 
+            phone_number = :phone, 
+            address = :address, 
+            salary = :salary
+        WHERE 
+            person_id = (SELECT person_id FROM admin WHERE admin_id = :admin_id)
+    ";
 
     $update_stmt = $database->prepare($update_query);
-    $update_stmt->bindParam(':firstName', $updated_fname);
-    $update_stmt->bindParam(':lastName', $updated_lname);
-    $update_stmt->bindParam(':email', $updated_email);
+    $update_stmt->bindParam(':first_name', $updated_fname);
+    $update_stmt->bindParam(':last_name', $updated_lname);
     $update_stmt->bindParam(':phone', $updated_phone);
     $update_stmt->bindParam(':address', $updated_address);
     $update_stmt->bindParam(':salary', $updated_salary);
-    $update_stmt->bindParam(':ID', $admin_id, PDO::PARAM_INT);
+    $update_stmt->bindParam(':admin_id', $admin_id, PDO::PARAM_INT);
 
     if ($update_stmt->execute()) {
         echo "Profile updated successfully!";
@@ -82,6 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 
