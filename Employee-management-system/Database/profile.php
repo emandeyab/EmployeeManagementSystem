@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
         <div class="sidebar">
             <div class="brand">EMS</div>
             <a href="dashboard.php">Dashboard</a>
-            <a href="">Create Account</a>
+            <a href="">Manage Managers</a>
             <a href="">Manage Employees</a>
             <a href="">Manage Departments</a>
             <a href="viewProfile.php">View Profile</a>
