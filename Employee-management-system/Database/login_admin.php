@@ -1,6 +1,5 @@
 <?php
 session_start();  // Start the session to track user data
-require  'config.php';
 
 $username = "root";
 $password = "";
