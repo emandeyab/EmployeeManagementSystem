@@ -1,26 +1,17 @@
 <?php
-// Start the session to track user data (you must include session_start() at the beginning of the file)
+// Start the session
 session_start();
 
 // Ensure the user is logged in
 if (!isset($_SESSION['person_id'])) {
-    // Redirect to login page if user is not logged in
     header("Location: login_admin.php");
     exit();
 }
 
-// Handle logout request
-if (isset($_GET['logout'])) {
-    // Destroy the session and redirect to the login page
-    session_destroy();
-    header("Location: login_admin.php");
-    exit();
-}
-
-$username = "root"; // Replace with your database username
-$password = ""; // Replace with your database password
-$host = "localhost"; // Usually localhost for local development
-$dbname = "emp"; // Replace with your database name
+$username = "root";
+$password = "";
+$host = "localhost";
+$dbname = "emp";
 
 try {
     $database = new PDO("mysql:host=$host; dbname=$dbname; charset=utf8", $username, $password);
@@ -31,21 +22,39 @@ try {
 $user_name = $_SESSION['user_name']; 
 $user_id = $_SESSION['person_id'];
 
+// Step 1: Fetch employee_id from employees table using person_id
+$query = "
+    SELECT employee_id
+    FROM employee
+    WHERE person_id = :person_id
+";
+$stmt = $database->prepare($query);
+$stmt->bindParam(':person_id', $user_id, PDO::PARAM_INT);
+$stmt->execute();
+$employee_data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($employee_data) {
+    $employee_id = $employee_data['employee_id'];
+} else {
+    die("Employee not found.");
+}
+
+// Step 2: Fetch vacation data for the employee using employee_id
 $query = "
     SELECT 
         vac.vacation_id,
-        vac.reason,
+        vac.causes,
         vac.start_date,
         vac.end_date,
         vac.status
-    FROM vacation vac
+    FROM vacations vac
     WHERE vac.employee_id = :employee_id
 ";
 $stmt = $database->prepare($query);
-$stmt->bindParam(':employee_id', $user_id, PDO::PARAM_INT);
+$stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
 $stmt->execute();
 
-// Fetch results
+// Fetch vacation data
 $vacations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -95,7 +104,7 @@ $vacations = $stmt->fetchAll(PDO::FETCH_ASSOC);
           foreach ($vacations as $vacation) {
             echo "<tr>";
             echo "<td>" . $count . "</td>";
-            echo "<td>" . htmlspecialchars($vacation['reason']) . "</td>";
+            echo "<td>" . htmlspecialchars($vacation['causes']) . "</td>";
             echo "<td>" . htmlspecialchars($vacation['start_date']) . "</td>";
             echo "<td>" . htmlspecialchars($vacation['end_date']) . "</td>";
             echo "<td>" . htmlspecialchars($vacation['status']) . "</td>";
