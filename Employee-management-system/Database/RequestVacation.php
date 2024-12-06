@@ -9,12 +9,11 @@ if (!isset($_SESSION['person_id'])) {
     exit();
 }
 
-// Handle logout request
 if (isset($_GET['logout'])) {
-    // Destroy the session and redirect to the login page
-    session_destroy();
-    header("Location: login_admin.php");
-    exit();
+  // Destroy the session and redirect to the login page
+  session_destroy();
+  header("Location: login_admin.php");
+  exit();
 }
 
 // Database credentials
@@ -34,57 +33,58 @@ try {
 $user_name = $_SESSION['user_name'];
 $user_id = $_SESSION['person_id'];
 
-
-$query = "SELECT department_id FROM employee WHERE employee_id = :person_id";
+// Query to get department_id and employee_id from the employee table using person_id
+$query = "SELECT employee_id, department_id FROM employee WHERE person_id = :person_id";
 $stmt = $database->prepare($query);
 $stmt->bindParam(':person_id', $user_id, PDO::PARAM_INT);
 $stmt->execute();
 $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user_data) {
+    $employee_id = $user_data['employee_id'];
     $department_id = $user_data['department_id'];
 } else {
-    die("User not found.");
+    die("User not found in the employee table.");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Check if form fields are set and not empty
-  if (!isset($_POST['vacation_reason'], $_POST['start_date'], $_POST['end_date']) ||
-      empty($_POST['vacation_reason']) || empty($_POST['start_date']) || empty($_POST['end_date'])) {
-      $_SESSION['message'] = "Please fill in all fields.";
-      $_SESSION['message_type'] = "alert-danger"; // Bootstrap error class
-  } else {
-      // Sanitize input values
-      $vacation_reason = trim($_POST['vacation_reason']);
-      $start_date = $_POST['start_date'];
-      $end_date = $_POST['end_date'];
+    // Check if form fields are set and not empty
+    if (!isset($_POST['vacation_reason'], $_POST['start_date'], $_POST['end_date']) ||
+        empty($_POST['vacation_reason']) || empty($_POST['start_date']) || empty($_POST['end_date'])) {
+        $_SESSION['message'] = "Please fill in all fields.";
+        $_SESSION['message_type'] = "alert-danger"; // Bootstrap error class
+    } else {
+        // Sanitize input values
+        $vacation_reason = trim($_POST['vacation_reason']);
+        $start_date = $_POST['start_date'];
+        $end_date = $_POST['end_date'];
 
-      // Insert the vacation request into the database
-      try {
-          $query = "INSERT INTO vacation (employee_id, department_id, reason, start_date, end_date, status) 
-                    VALUES (:employee_id, :department_id, :reason, :start_date, :end_date, 'Pending')";
-          $stmt = $database->prepare($query);
-          $stmt->bindParam(':employee_id', $user_id, PDO::PARAM_INT);
-          $stmt->bindParam(':department_id', $department_id, PDO::PARAM_INT);
-          $stmt->bindParam(':reason', $vacation_reason, PDO::PARAM_STR);
-          $stmt->bindParam(':start_date', $start_date, PDO::PARAM_STR);
-          $stmt->bindParam(':end_date', $end_date, PDO::PARAM_STR);
+        // Insert the vacation request into the database
+        try {
+          $query = "INSERT INTO vacations (employee_id, causes, start_date, end_date, status, department_id) 
+                    VALUES (:employee_id, :causes, :start_date, :end_date, 'Pending' , :department_id)";
+            $stmt = $database->prepare($query);
+            $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
+            $stmt->bindParam(':department_id', $department_id, PDO::PARAM_INT);
+            $stmt->bindParam(':causes', $vacation_reason, PDO::PARAM_STR);
+            $stmt->bindParam(':start_date', $start_date, PDO::PARAM_STR);
+            $stmt->bindParam(':end_date', $end_date, PDO::PARAM_STR);
 
-          if ($stmt->execute()) {
-              $_SESSION['message'] = "Vacation request submitted successfully!";
-              $_SESSION['message_type'] = "alert-success"; // Bootstrap success class
-          } else {
-              $_SESSION['message'] = "Error submitting request: " . $stmt->errorInfo()[2];
-              $_SESSION['message_type'] = "alert-danger"; // Bootstrap error class
-          }
-      } catch (PDOException $e) {
-          $_SESSION['message'] = "Database error: " . $e->getMessage();
-          $_SESSION['message_type'] = "alert-danger";
-      }
-  }
-
-  header("Location: requestedVacation.php"); // Redirect after form submission
-  exit();
+            if ($stmt->execute()) {
+                $_SESSION['message'] = "Vacation request submitted successfully!";
+                $_SESSION['message_type'] = "alert-success"; // Bootstrap success class
+            } else {
+                $errorInfo = $stmt->errorInfo(); // Get error information
+                $_SESSION['message'] = "Error submitting request: " . $errorInfo[2];
+                $_SESSION['message_type'] = "alert-danger"; // Bootstrap error class
+            }
+        } catch (PDOException $e) {
+            $_SESSION['message'] = "Database error: " . $e->getMessage();
+            $_SESSION['message_type'] = "alert-danger";
+        }
+    }
+    header("Location: requestedVacation.php"); // Redirect after form submission
+     exit();
 }
 ?>
 
