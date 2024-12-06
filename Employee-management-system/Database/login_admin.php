@@ -1,5 +1,6 @@
 <?php
 session_start();  // Start the session to track user data
+require  'config.php';
 
 $username = "root";
 $password = "";
@@ -10,77 +11,135 @@ if(!$database) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $query = "
-         SELECT 
-            person.person_id, 
-            person.first_name, 
-            person.last_name, 
-            person.role, 
-            admin.password AS admin_password,
-            manager.password AS manager_password,
-            employee.password AS employee_password,
-            employee.logi_id,
-            admin.admin_id,
-            manager.manager_id,
-            employee.employee_id
-        FROM 
-            person 
-        LEFT JOIN admin  ON admin.admin_id = person.person_id
-        LEFT JOIN manager  ON manager.manager_id = person.person_id
-        LEFT JOIN employee  ON employee.employee_id = person.person_id
+    // Determine the role and set the query accordingly
+    $roleQuery = "
+        SELECT role 
+        FROM person
         WHERE 
-            admin.email = :email OR manager.email = :email OR employee.logi_id = :email
+            person_id IN (
+                SELECT person_id FROM admin WHERE email = :email
+                UNION 
+                SELECT person_id FROM manager WHERE email = :email
+                UNION 
+                SELECT person_id FROM employee WHERE logi_id = :email
+            )
     ";
 
-    $stmt = $database->prepare($query);
-    $stmt->bindParam(':email', $email);
-    $stmt->execute();
+    try {
+        $stmt = $database->prepare($roleQuery);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
 
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $roleResult = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user) {
-        $isPasswordValid = false;
+        if ($roleResult) {
+            $role = $roleResult['role'];
 
-        // Check against the correct table's password based on the role
-        if ($user['role'] == 'admin' && $user['admin_password'] == $password) {
-            $isPasswordValid = true;
-        } elseif ($user['role'] == 'manager' && $user['manager_password'] == $password) {
-            $isPasswordValid = true;
-        } elseif ($user['role'] == 'employee' && $user['employee_password'] == $password) {
-            $isPasswordValid = true;
-        }
-
-        if ($isPasswordValid) {
-            // Store session data
-            $_SESSION['person_id'] = $user['person_id'];
-            $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
-            $_SESSION['role'] = $user['role'];
-
-            // Redirect based on role
-            switch ($user['role']) {
+            // Define the query based on the role
+            switch ($role) {
                 case 'admin':
-                    header("Location: dashboard.php");
+                    $query = "
+                        SELECT 
+                            person.person_id, 
+                            person.first_name, 
+                            person.last_name, 
+                            person.role, 
+                            admin.password AS admin_password
+                        FROM 
+                            person 
+                        LEFT JOIN admin ON admin.person_id = person.person_id
+                        WHERE admin.email = :email
+                    ";
                     break;
+
                 case 'manager':
-                    header("Location: dashboard_man.php");
+                    $query = "
+                        SELECT 
+                            person.person_id, 
+                            person.first_name, 
+                            person.last_name, 
+                            person.role, 
+                            manager.password AS manager_password
+                        FROM 
+                            person 
+                        LEFT JOIN manager ON manager.person_id = person.person_id
+                        WHERE manager.email = :email
+                    ";
                     break;
+
                 case 'employee':
-                    header("Location: dashboard_emp.php");
+                    $query = "
+                        SELECT 
+                            person.person_id, 
+                            person.first_name, 
+                            person.last_name, 
+                            person.role, 
+                            employee.password AS employee_password,
+                            employee.logi_id
+                        FROM 
+                            person 
+                        LEFT JOIN employee ON employee.person_id = person.person_id
+                        WHERE employee.logi_id = :email
+                    ";
                     break;
+
                 default:
                     $error_message = "Role not recognized.";
-                    break;
+                    return;
             }
-            exit();
+
+            // Execute the specific query for the role
+            $stmt = $database->prepare($query);
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user) {
+                // Verify password
+                $isPasswordValid = false;
+
+                if ($role == 'admin' && $user['admin_password'] == $password) {
+                    $isPasswordValid = true;
+                } elseif ($role == 'manager' && $user['manager_password'] == $password) {
+                    $isPasswordValid = true;
+                } elseif ($role == 'employee' && $user['employee_password'] == $password) {
+                    $isPasswordValid = true;
+                }
+
+                if ($isPasswordValid) {
+                    // Store session data
+                    $_SESSION['person_id'] = $user['person_id'];
+                    $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
+                    $_SESSION['role'] = $role;
+
+                    // Redirect based on role
+                    switch ($role) {
+                        case 'admin':
+                            header("Location: dashboard.php");
+                            break;
+                        case 'manager':
+                            header("Location: dashboard_man.php");
+                            break;
+                        case 'employee':
+                            header("Location: dashboard_emp.php");
+                            break;
+                    }
+                    exit();
+                } else {
+                    $error_message = "Invalid password.";
+                }
+            } else {
+                $error_message = "User not found.";
+            }
         } else {
-            $error_message = "Invalid password.";
+            $error_message = "Role not found.";
         }
-    } else {
-        $error_message = "Email not found.";
+    } catch (PDOException $e) {
+        $error_message = "Database error: " . $e->getMessage();
     }
 }
 ?>
