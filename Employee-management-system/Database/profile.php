@@ -40,19 +40,18 @@ $query = "
         person.address, 
         person.job_title AS job, 
         person.salary,
+        admin.email AS admin_email,
+        employee.logi_id AS employee_email,
+        manager.email AS manager_email,
         CASE 
             WHEN person.role = 'admin' THEN admin.email
             WHEN person.role = 'employee' THEN employee.logi_id
             WHEN person.role = 'manager' THEN manager.email
-        END AS email,
-        admin.admin_id,
-        employee.employee_id,
-        manager.manager_id
-
+        END AS email
     FROM person
     LEFT JOIN admin ON person.person_id = admin.person_id
-    LEFT JOIN employee ON person.person_id = employee.employee_id
-    LEFT JOIN manager ON person.person_id = manager.manager_id
+    LEFT JOIN employee ON person.person_id = employee.person_id
+    LEFT JOIN manager ON manager.person_id = person.person_id
     WHERE person.person_id = :person_id
 ";
 $stmt = $database->prepare($query);
@@ -139,7 +138,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile']) && $
 }
 $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in the session
 ?>
-
 <!DOCTYPE html>
 <html>
 
@@ -229,7 +227,8 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
                             </div>
                             <div class="col-md-9 text-secondary">
                                 <input type="email" id="email" name="email"
-                                    value="<?php echo htmlspecialchars($email); ?>" readonly>
+                                    value="<?php echo htmlspecialchars($email); ?>" readonly
+                                    style="width: 100%; padding: 10px; font-size: 16px;">
                             </div>
                         </div>
                         <hr>
