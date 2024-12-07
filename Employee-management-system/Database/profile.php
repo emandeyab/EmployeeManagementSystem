@@ -169,7 +169,7 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
             <?php elseif ($role == 'employee'): ?>
                 <!-- Employee Sidebar Links -->
                 <a href="dashboard_emp.php">Dashboard</a>
-                <a href="assignedtasks.html">Assigned Tasks</a>
+                <a href="assigned_tasks.php">Assigned Tasks</a>
                 <a href="RequestVacation.php">Request Vacation</a>
                 <a href="requestedVacation.php">Requested Vacations</a> 
                 <a href="#">View Profile</a>

@@ -221,7 +221,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="sidebar">
   <div class="brand">EMS</div>
   <a href="dashboard_emp.php">Dashboard</a>
-  <a href="assignedtasks.html">Assigned Tasks</a>
+  <a href="assigned_tasks.php">Assigned Tasks</a>
   <a href="RequestVacation.php">Request Vacation</a>
   <a href="requestedVacation.php">Requested Vacations</a>
   <a href="profile.php">View Profile</a>
