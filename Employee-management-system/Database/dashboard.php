@@ -220,7 +220,7 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
   <div class="brand">EMS</div>
   <a href="#">Dashboard</a>
   <a href="manage-managers.html">Manage Employees</a>
-  <a href="manage-employee.html">Manage Employees</a>
+  <a href="manage-employee.html">Manage Managers</a>
   <a href="manage-department.html">Manage Departments</a>
   <a href="profile.php">View Profile</a>
 </div>
