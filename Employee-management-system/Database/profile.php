@@ -156,8 +156,8 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
             <div class="brand">EMS</div>
             <?php if ($role == 'admin'): ?>
                 <a href="dashboard.php">Dashboard</a>
-                <a href="manage-managers.php">Create Account</a>
-                <a href="manage-employee.php">Manage Employees</a>
+                <a href="manage-managers.php">Manage Employees</a>
+                <a href="manage-employee.php">Manage Managers</a>
                 <a href="manage-department.php">Manage Departments</a>
                 <a href="#">View Profile</a>
             <?php elseif ($role == 'manager'): ?>
