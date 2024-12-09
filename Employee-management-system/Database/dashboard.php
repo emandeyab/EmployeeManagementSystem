@@ -1,12 +1,17 @@
 <?php
-// Start the session to track user data (you must include session_start() at the beginning of the file)
+// Start the session to track user data
 session_start();
 
-if (!isset($_SESSION['person_id'])) {
-  // Redirect to login page if user is not logged in
-  header("Location: login_admin.php");
-  exit();
+// Ensure the user is logged in
+if (!isset($_SESSION['admin_id'])) {
+    // Redirect to login page if user is not logged in
+    header("Location: login_admin.php");
+    exit();
 }
+
+// Get the admin's name from the session (assuming 'admin_name' is set during login)
+$admin_name = $_SESSION['admin_name'];
+
 // Handle logout request
 if (isset($_GET['logout'])) {
     // Destroy the session and redirect to the login page
@@ -15,8 +20,6 @@ if (isset($_GET['logout'])) {
     exit();
 }
 
-// Get the employee's name from the session
-$user_name = $_SESSION['user_name']; // Assuming the user's name is stored in the session
 ?>
 
 <!DOCTYPE html>
@@ -219,8 +222,8 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
 <div class="sidebar">
   <div class="brand">EMS</div>
   <a href="#">Dashboard</a>
-  <a href="manage-managers.html">Manage Employees</a>
-  <a href="manage-employee.html">Manage Managers</a>
+  <a href="manage-managers.html">Manage Managers</a>
+  <a href="manage-employee.html">Manage Employees</a>
   <a href="manage-department.html">Manage Departments</a>
   <a href="profile.php">View Profile</a>
 </div>
@@ -229,7 +232,7 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
 <div class="content">
   <!-- Header Section -->
   <div class="header">
-    <h3>Welcome Back, <?php echo $user_name; ?></h3> <!-- Displaying the employee's name -->
+    <h3>Welcome Back, <?php echo $admin_name; ?></h3> <!-- Displaying the employee's name -->
     <div>
       <!-- Span for displaying current date -->
       <span id="currentDate"></span>
@@ -249,7 +252,7 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
   <!-- Navigation Cards -->
   <div class="row">
     <div class="col-md-3 mb-4">
-      <a href="manage-managers.html" class="card bg-warning text-decoration-none">
+      <a href="man_emp_crud.php" class="card bg-warning text-decoration-none">
         <div class="card-body">
           <h5 class="card-title">Manage Managers</h5>
         </div>
