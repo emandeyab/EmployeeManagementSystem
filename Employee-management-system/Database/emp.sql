@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2024 at 10:35 AM
+-- Generation Time: Dec 10, 2024 at 11:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,8 +39,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`admin_id`, `person_id`, `email`, `password`) VALUES
-(1, 1, 'admin.mohammed@company.com', 'root123'),
-(4, 2, 'admin.nour@company.com ', '123');
+(4, 1, 'admin.ali@company.com', 'rji8934tijegd');
 
 -- --------------------------------------------------------
 
@@ -50,7 +49,7 @@ INSERT INTO `admin` (`admin_id`, `person_id`, `email`, `password`) VALUES
 
 CREATE TABLE `department` (
   `department_id` int(11) NOT NULL,
-  `manager_id` int(11) NOT NULL,
+  `manager_id` int(11) DEFAULT NULL,
   `name` varchar(225) NOT NULL,
   `location` varchar(225) NOT NULL,
   `emps_number` int(12) NOT NULL
@@ -61,8 +60,9 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`department_id`, `manager_id`, `name`, `location`, `emps_number`) VALUES
-(5, 2, 'Sales', 'Alex', 1),
-(101, 1, 'Development', 'Alex', 1);
+(103, 2, 'Sales', 'Aswan', 1),
+(104, 4, 'Development', 'Alex', 1),
+(105, 5, 'Transport', 'Cairo', 1);
 
 -- --------------------------------------------------------
 
@@ -73,7 +73,7 @@ INSERT INTO `department` (`department_id`, `manager_id`, `name`, `location`, `em
 CREATE TABLE `employee` (
   `employee_id` int(11) NOT NULL,
   `person_id` int(11) NOT NULL,
-  `department_id` int(11) NOT NULL,
+  `department_id` int(11) DEFAULT NULL,
   `logi_id` int(14) NOT NULL,
   `password` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -83,8 +83,9 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`employee_id`, `person_id`, `department_id`, `logi_id`, `password`) VALUES
-(20, 100, 101, 2034, '123'),
-(21, 101, 5, 2000, '1234');
+(26, 114, 103, 2000, '$2y$10$CMr.p/tcPBAZqMHCpskCm.rvf7dSv4DCVwypOcO9z6B8akHaAfb/W'),
+(27, 115, 104, 2001, '$2y$10$o5hBUaGLQk/r3zFTTziKrOQbuGqhI1wuBwokaTBu3NPuImr97ysHC'),
+(29, 117, 105, 2005, '$2y$10$1SnkvxEXEfezYIOGLtfz3OV.La4/EHAtEaGnoDCD6lH.2Yk0Hwl.u');
 
 -- --------------------------------------------------------
 
@@ -104,8 +105,9 @@ CREATE TABLE `manager` (
 --
 
 INSERT INTO `manager` (`manager_id`, `person_id`, `email`, `password`) VALUES
-(1, 11, 'Development.manager.hamza@company.com', '9843hewnfmd02k'),
-(2, 10, 'Sales.manager.ghali@company.com', '1234');
+(2, 10, 'Sales.manager.gamil@company.com', '943thewnm,[k'),
+(4, 112, 'development.new@company.com', '$2y$10$mWlz7kRmm8teiPi6Sr/7YeFojUHmCyoDvEx1UHYlhi0r/h8r7z7Ge'),
+(5, 113, 'transport.manager@company.com', '$2y$10$Tkbii1Bs.J27VxHTHlooSunS.Ql0gYVnlpVm6KgdVnvE2nZtyNpNq');
 
 -- --------------------------------------------------------
 
@@ -133,12 +135,14 @@ CREATE TABLE `person` (
 --
 
 INSERT INTO `person` (`person_id`, `first_name`, `last_name`, `age`, `address`, `phone_number`, `date_of_birth`, `absent_times`, `salary`, `job_title`, `gender`, `role`) VALUES
-(1, 'Mohamed', 'Ahmed', 30, 'Cairo', '01012351246', '1996-12-09', NULL, 16600, 'root', 'male', 'admin'),
-(2, 'Nour', 'Mohyee', 28, 'Cairo', '9387450823', '1996-02-04', 0, 30000, 'root', 'female', 'admin'),
-(10, 'Ghali', 'Ali', 29, 'El-Maadi', '34567899876', '1995-02-04', 0, 30000, 'Team leads', 'male', 'manager'),
-(11, 'Hamza', 'Namira', 30, 'UAE', '085329-12', '1994-02-04', 6, 33000, 'Direct supervisor', 'male', 'manager'),
-(100, 'Ola', 'Sarhan', 25, 'Kafr-Tenbady', '3408508', '2000-01-01', 0, 10000, 'Web Designer', 'female', 'employee'),
-(101, 'Samira', 'Samer', 22, 'Abo El-Gheet', '32083048532', '2003-01-01', 0, 10000, 'Accountant', 'female', 'employee');
+(1, 'Ali', 'Alaa', 40, 'Cairo', '5997403940', '1986-01-01', 3, 35000, 'root', 'male', 'admin'),
+(10, 'Gamil', 'Salem', 29, 'Menoufia', '82467230903', '1995-02-04', 0, 200099, 'Directorrr', 'male', 'manager'),
+(111, 'New', 'Employee', 25, 'New cairo', '39460820-', '2000-01-01', NULL, 10000, 'Software Developer', 'male', 'employee'),
+(112, 'Ahmed', 'Sayed', 25, 'Alexandria', '3946082020', '2000-02-03', NULL, 10000, 'Excutive director', 'male', 'manager'),
+(113, 'Mohaamed', 'Taha', 25, 'Qena', '438082-0', '2002-02-02', NULL, 10000, 'Director', 'female', 'manager'),
+(114, 'Alia', 'Qasem', 25, 'Menoufia', '39846028', '2000-01-01', NULL, 10000, 'Accountant', 'female', 'employee'),
+(115, 'Ahmed', 'Allam', 25, 'Suez', '374082-342', '2000-02-02', NULL, 10000, 'Software Developer', 'male', 'employee'),
+(117, 'New', 'Employee', 25, 'Aswan', '39460820-', '2000-02-02', NULL, 10000, 'Software Developer', 'male', 'employee');
 
 -- --------------------------------------------------------
 
@@ -150,7 +154,7 @@ CREATE TABLE `tasks` (
   `task_id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
   `description` varchar(50) DEFAULT NULL,
-  `status` enum('To Do','Done','In Progress') DEFAULT NULL,
+  `status` enum('To Do','In Progress','Done') DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -160,8 +164,7 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`task_id`, `employee_id`, `description`, `status`, `start_date`, `end_date`) VALUES
-(1, 20, 'create CRUD table for managers', 'Done', '2024-12-05', '2024-12-18'),
-(2, 21, 'Create use case description', 'In Progress', '2024-12-04', '2024-12-31');
+(1, 26, 'Create use case description', 'In Progress', '2024-12-04', '2024-12-31');
 
 -- --------------------------------------------------------
 
@@ -175,7 +178,7 @@ CREATE TABLE `vacations` (
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
   `causes` varchar(50) DEFAULT NULL,
-  `status` enum('Pending','Approved','Rejected') DEFAULT NULL,
+  `status` enum('Pending','Approved','Rejected') NOT NULL DEFAULT 'Pending',
   `department_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -184,9 +187,7 @@ CREATE TABLE `vacations` (
 --
 
 INSERT INTO `vacations` (`vacation_id`, `employee_id`, `start_date`, `end_date`, `causes`, `status`, `department_id`) VALUES
-(12, 20, '2024-12-07', '2024-12-09', 'Sick Leave', 'Pending', 101),
-(13, 20, '2024-12-04', '2024-12-05', 'Emergency Leave', 'Pending', 101),
-(14, 21, '2024-12-04', '2024-12-05', 'Sick leave', 'Pending', 5);
+(15, 26, '2024-12-11', '2024-12-14', 'I\'m sick.', 'Approved', 103);
 
 --
 -- Indexes for dumped tables
@@ -204,15 +205,15 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `department`
   ADD PRIMARY KEY (`department_id`),
-  ADD KEY `manager_id` (`manager_id`);
+  ADD KEY `department_ibfk_1` (`manager_id`);
 
 --
 -- Indexes for table `employee`
 --
 ALTER TABLE `employee`
   ADD PRIMARY KEY (`employee_id`),
-  ADD KEY `department_id` (`department_id`),
-  ADD KEY `person_id` (`person_id`);
+  ADD KEY `person_id` (`person_id`),
+  ADD KEY `employee_ibfk_1` (`department_id`);
 
 --
 -- Indexes for table `manager`
@@ -232,14 +233,14 @@ ALTER TABLE `person`
 --
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`task_id`),
-  ADD KEY `employee_id` (`employee_id`);
+  ADD KEY `tasks_ibfk_1` (`employee_id`);
 
 --
 -- Indexes for table `vacations`
 --
 ALTER TABLE `vacations`
   ADD PRIMARY KEY (`vacation_id`),
-  ADD KEY `employee_id` (`employee_id`);
+  ADD KEY `vacations_ibfk_1` (`employee_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -255,37 +256,37 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
-  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `manager`
 --
 ALTER TABLE `manager`
-  MODIFY `manager_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `manager_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `person_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `person_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `vacations`
 --
 ALTER TABLE `vacations`
-  MODIFY `vacation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `vacation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
@@ -301,13 +302,13 @@ ALTER TABLE `admin`
 -- Constraints for table `department`
 --
 ALTER TABLE `department`
-  ADD CONSTRAINT `department_ibfk_1` FOREIGN KEY (`manager_id`) REFERENCES `manager` (`manager_id`);
+  ADD CONSTRAINT `department_ibfk_1` FOREIGN KEY (`manager_id`) REFERENCES `manager` (`manager_id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `employee`
 --
 ALTER TABLE `employee`
-  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `department` (`department_id`),
+  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `department` (`department_id`) ON DELETE SET NULL,
   ADD CONSTRAINT `employee_ibfk_2` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`);
 
 --
@@ -320,7 +321,7 @@ ALTER TABLE `manager`
 -- Constraints for table `tasks`
 --
 ALTER TABLE `tasks`
-  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`);
+  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vacations`
