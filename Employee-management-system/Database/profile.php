@@ -156,33 +156,36 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
             <div class="brand">EMS</div>
             <?php if ($role == 'admin'): ?>
                 <a href="dashboard.php">Dashboard</a>
-                <a href="manage-managers.php">Manage Employees</a>
-                <a href="manage-employee.php">Manage Managers</a>
-                <a href="manage-department.php">Manage Departments</a>
+                <a href="ManagersCRUD.php">Manage Managers</a>
+                <a href="employeecrud.php">Manage Employees</a>
+                <a href="depcrud.php">Manage Departments</a>
                 <a href="#">View Profile</a>
             <?php elseif ($role == 'manager'): ?>
                 <!-- Manager Sidebar Links -->
-                <a href="dashboard.php">Dashboard</a>
-                <a href="assign-tasks.php">Assign Tasks</a>
-                <a href="manage-team.php">Manage Team</a>
+                <a href="dashboard_man.php">Dashboard</a>
                 <a href="#">View Profile</a>
+                <a href="viewEmployees.php">View All Employees</a>
+                <a href="assignTasks.html">Assign Tasks</a>
+                <a href="assignAttendanceAndLeave.html">Assign Attendance and Leave</a>
+                <a href="Requested_vacations_manager.php">Requested Vacations</a>
+                <a href="generate_reports.html">Generate Reports</a>
             <?php elseif ($role == 'employee'): ?>
                 <!-- Employee Sidebar Links -->
                 <a href="dashboard_emp.php">Dashboard</a>
                 <a href="assigned_tasks.php">Assigned Tasks</a>
                 <a href="RequestVacation.php">Request Vacation</a>
-                <a href="requestedVacation.php">Requested Vacations</a> 
+                <a href="requestedVacation.php">Requested Vacations</a>
                 <a href="#">View Profile</a>
             <?php endif; ?>
         </div>
 
         <div class="col-md-8 mt-1" style="padding-top: 3%;">
             <div class="header">
-                <h3>Welcome Back, <?php echo $user_name; ?></h3> 
+                <h3>Welcome Back, <?php echo $user_name; ?></h3>
                 <div>
-                    
+
                     <span id="currentDate"></span>
-                
+
                     <button class="btn-signout ms-3" onclick="logout()">Logout</button>
                 </div>
             </div>
