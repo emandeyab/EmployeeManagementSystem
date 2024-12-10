@@ -246,7 +246,7 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
   <!-- Breadcrumb -->
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="home-page.html">Home</a></li>
+      <li class="breadcrumb-item"><a href="">Home</a></li>
       <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
     </ol>
   </nav>
