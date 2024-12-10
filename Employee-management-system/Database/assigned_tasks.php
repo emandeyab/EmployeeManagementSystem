@@ -18,6 +18,8 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
+$user_name = $_SESSION['user_name']; 
+
 // Handle status update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['task_id'], $_POST['status'])) {
@@ -285,7 +287,7 @@ if (isset($_GET['logout'])) {
     </div>
     <div class="content">
         <div class="header">
-            <h3>Welcome Back, <?= htmlspecialchars($_SESSION['first_name'] . ' ' . $_SESSION['last_name']) ?></h3>
+            <h3>Welcome Back, <?php echo htmlspecialchars($user_name); ?></h3>
             <button class="btn-signout" onclick="window.location.href='?logout=true'">Logout</button>
         </div>
         <h1>Assigned Tasks</h1>
