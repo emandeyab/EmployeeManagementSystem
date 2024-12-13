@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2024 at 11:32 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Dec 13, 2024 at 05:48 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -85,7 +85,7 @@ CREATE TABLE `employee` (
 INSERT INTO `employee` (`employee_id`, `person_id`, `department_id`, `logi_id`, `password`) VALUES
 (26, 114, 103, 2000, '$2y$10$CMr.p/tcPBAZqMHCpskCm.rvf7dSv4DCVwypOcO9z6B8akHaAfb/W'),
 (27, 115, 104, 2001, '$2y$10$o5hBUaGLQk/r3zFTTziKrOQbuGqhI1wuBwokaTBu3NPuImr97ysHC'),
-(29, 117, 105, 2005, '$2y$10$1SnkvxEXEfezYIOGLtfz3OV.La4/EHAtEaGnoDCD6lH.2Yk0Hwl.u');
+(29, 117, 105, 2005, '1234');
 
 -- --------------------------------------------------------
 
@@ -105,7 +105,7 @@ CREATE TABLE `manager` (
 --
 
 INSERT INTO `manager` (`manager_id`, `person_id`, `email`, `password`) VALUES
-(2, 10, 'Sales.manager.gamil@company.com', '943thewnm,[k'),
+(2, 10, 'Sales.manager.gamil@company.com', '1234'),
 (4, 112, 'development.new@company.com', '$2y$10$mWlz7kRmm8teiPi6Sr/7YeFojUHmCyoDvEx1UHYlhi0r/h8r7z7Ge'),
 (5, 113, 'transport.manager@company.com', '$2y$10$Tkbii1Bs.J27VxHTHlooSunS.Ql0gYVnlpVm6KgdVnvE2nZtyNpNq');
 
@@ -164,7 +164,8 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`task_id`, `employee_id`, `description`, `status`, `start_date`, `end_date`) VALUES
-(1, 26, 'Create use case description', 'In Progress', '2024-12-04', '2024-12-31');
+(1, 26, 'Create use case description', 'In Progress', '2024-12-04', '2024-12-31'),
+(4, 26, 'sequence diagram', 'To Do', '2024-12-15', '2024-12-21');
 
 -- --------------------------------------------------------
 
@@ -280,7 +281,7 @@ ALTER TABLE `person`
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `vacations`

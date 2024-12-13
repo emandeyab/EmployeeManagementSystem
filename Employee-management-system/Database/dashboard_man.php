@@ -226,7 +226,7 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
   <a href="#">Dashboard</a>
   <a href="profile.php">View Profile</a>
   <a href="viewEmployees.php">View All Employees</a>
-  <a href="assignTasks.html">Assign Tasks</a>
+  <a href="assignTasks.php">Assign Tasks</a>
   <a href="assignAttendanceAndLeave.html">Assign Attendance and Leave</a>
   <a href="Requested_vacations_manager.php">Requested Vacations</a>
   <a href="generate_reports.html">Generate Reports</a>
@@ -274,7 +274,7 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
     </div>
 
     <div class="col-md-3 mb-4">
-      <a href="assignTasks.html" class="card bg-success text-decoration-none">
+      <a href="assignTasks.php" class="card bg-success text-decoration-none">
         <div class="card-body">
           <h5 class="card-title">Assign Tasks</h5>
         </div>
