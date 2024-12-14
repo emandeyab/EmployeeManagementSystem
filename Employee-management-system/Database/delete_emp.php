@@ -3,11 +3,11 @@ include("config.php");
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    
-    
+
+
     $query1 = "DELETE FROM vacations WHERE employee_id = :id";
-    
-    
+
+
     $query2 = "DELETE p, e
                FROM person p
                JOIN employee e
@@ -15,10 +15,10 @@ if (isset($_GET['id'])) {
                WHERE e.employee_id = :id";
 
     try {
-        
+
         $database->beginTransaction();
 
-        
+
         $stmt1 = $database->prepare($query1);
         $stmt1->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt1->execute();
@@ -28,13 +28,13 @@ if (isset($_GET['id'])) {
         $stmt2->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt2->execute();
 
-        
+
         $database->commit();
 
         echo "Record deleted successfully.";
         header("location: employeecrud.php");
     } catch (PDOException $e) {
-       
+
         $database->rollBack();
         echo "Error: " . $e->getMessage();
     }

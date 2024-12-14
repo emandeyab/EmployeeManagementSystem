@@ -83,9 +83,9 @@ if (isset($_GET['id'])) {
 session_start();
 
 if (!isset($_SESSION['person_id'])) {
-  // Redirect to login page if user is not logged in
-  header("Location: login_admin.php");
-  exit();
+    // Redirect to login page if user is not logged in
+    header("Location: login_admin.php");
+    exit();
 }
 // Handle logout request
 if (isset($_GET['logout'])) {
@@ -125,13 +125,6 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
             font-size: 20px;
             cursor: pointer;
         }
-
-
-
-
-
-
-
 
         body {
             color: #566787;
@@ -412,107 +405,115 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
 
 <body>
     <div class="header">
-    <h3>Logged in, <?php echo $user_name; ?></h3>
+        <h3>Logged in, <?php echo $user_name; ?></h3>
         <!-- Span for displaying current date -->
         <span id="currentDate"></span>
-            <!-- Logout Button with JavaScript Redirect -->
-            <button class="btn-signout ms-3" onclick="logout()">Logout</button>
-        </div>
+        <!-- Logout Button with JavaScript Redirect -->
+        <button class="btn-signout ms-3" onclick="logout()">Logout</button>
     </div>
-        <div class="container">
-            <div class=" text-center mt-5 ">
-                <h1>Update Manager</h1>
-            </div>
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form method="post" action="update_manager.php?id=<?php echo $id; ?>">
-
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>First Name</label>
-                                <input type="text" class="form-control" name="fname" value="<?php echo htmlspecialchars($result['first_name']); ?>">
-                            </div>
-                            <div class="form-group">
-                                <label>Last Name</label>
-                                <input type="text" class="form-control" name="lname" value="<?php echo htmlspecialchars($result['last_name']); ?>">
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" name="email" value="<?php echo htmlspecialchars($result['email']); ?>" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label>Password</label>
-
-                                <input type="text" class="form-control" name="password" id="password" readonly value="<?php echo htmlspecialchars($result['password']); ?>">
-                                <span id="eye-icon" class="eye-icon">&#128065;</span>
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" name="phone" value="<?php echo htmlspecialchars($result['phone']); ?>">
-                            </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <input type="text" class="form-control" name="address" value="<?php echo htmlspecialchars($result['address']); ?>">
-                            </div>
-                            <div class="form-group">
-                                <label>Job</label>
-                                <input type="text" class="form-control" name="job" value="<?php echo htmlspecialchars($result['job']); ?>">
-                            </div>
-                            <div class="form-group">
-                                <label>Salary</label>
-                                <input type="number" class="form-control" name="salary" value="<?php echo htmlspecialchars($result['salary']); ?>" min="0" step="0.01">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="submit" class="btn btn-info" name="save" value="SAVE">
-                            <input action="ManagersCRUD.php" type="submit" class="btn btn-info" name="save" value="CANCEL">
-                        </div>
-                        <div>
-            
-                    </form>
-                </div>
-            
+    </div>
+    <div class="container">
+        <div class=" text-center mt-5 ">
+            <h1>Update Manager</h1>
         </div>
-        
-        </body>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            const eyeIcon = document.getElementById('eye-icon');
-            const passwordInput = document.getElementById('password');
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" action="update_manager.php?id=<?php echo $id; ?>">
 
-            // Add event listener to the eye icon to toggle password visibility
-            eyeIcon.addEventListener('click', function() {
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    eyeIcon.innerHTML = '&#128064;'; // Open eye icon
-                } else {
-                    passwordInput.type = 'password';
-                    eyeIcon.innerHTML = '&#128065;'; // Closed eye icon
-                }
-            }); 
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" name="fname"
+                                value="<?php echo htmlspecialchars($result['first_name']); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control" name="lname"
+                                value="<?php echo htmlspecialchars($result['last_name']); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" name="email"
+                                value="<?php echo htmlspecialchars($result['email']); ?>" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+
+                            <input type="text" class="form-control" name="password" id="password" readonly
+                                value="<?php echo htmlspecialchars($result['password']); ?>">
+                            <span id="eye-icon" class="eye-icon">&#128065;</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" name="phone"
+                                value="<?php echo htmlspecialchars($result['phone']); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" class="form-control" name="address"
+                                value="<?php echo htmlspecialchars($result['address']); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Job</label>
+                            <input type="text" class="form-control" name="job"
+                                value="<?php echo htmlspecialchars($result['job']); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Salary</label>
+                            <input type="number" class="form-control" name="salary"
+                                value="<?php echo htmlspecialchars($result['salary']); ?>" min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-info" name="save" value="SAVE">
+                        <input action="ManagersCRUD.php" type="submit" class="btn btn-info" name="save" value="CANCEL">
+                    </div>
+                    <div>
+
+                </form>
+            </div>
+
+        </div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const eyeIcon = document.getElementById('eye-icon');
+    const passwordInput = document.getElementById('password');
+
+    // Add event listener to the eye icon to toggle password visibility
+    eyeIcon.addEventListener('click', function () {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.innerHTML = '&#128064;'; // Open eye icon
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.innerHTML = '&#128065;'; // Closed eye icon
+        }
+    });
 
 
-            // Function to get the current date in the format: Tue, 3 Dec 2024
-            function updateDate() {
-                var today = new Date();
-                var options = {
-                    weekday: 'short',
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                };
-                var formattedDate = today.toLocaleDateString('en-GB', options);
-                document.getElementById('currentDate').textContent = formattedDate;
-            }
+    // Function to get the current date in the format: Tue, 3 Dec 2024
+    function updateDate() {
+        var today = new Date();
+        var options = {
+            weekday: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        };
+        var formattedDate = today.toLocaleDateString('en-GB', options);
+        document.getElementById('currentDate').textContent = formattedDate;
+    }
 
-            // Call the function on page load
-            updateDate();
+    // Call the function on page load
+    updateDate();
 
-            // JavaScript function to redirect to login page when user logs out
-            function logout() {
-                window.location.href = 'login_admin.php'; // Redirect to the login page
-            }
-        </script>
+    // JavaScript function to redirect to login page when user logs out
+    function logout() {
+        window.location.href = 'login_admin.php'; // Redirect to the login page
+    }
+</script>
 
 
 </html>

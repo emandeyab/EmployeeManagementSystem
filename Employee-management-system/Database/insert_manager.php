@@ -18,10 +18,10 @@ if (isset($_POST['add_manager'])) {
     try {
         // Start a transaction
         $username = "root";
-        $password = "";    
+        $password = "";
         $pdo = new PDO("mysql:host=localhost;dbname=emp;charset=utf8;", $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+
         $pdo->beginTransaction();
 
         // Insert into the `person` table

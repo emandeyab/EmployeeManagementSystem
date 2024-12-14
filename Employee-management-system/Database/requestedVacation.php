@@ -4,8 +4,8 @@ session_start();
 
 // Ensure the user is logged in
 if (!isset($_SESSION['person_id'])) {
-    header("Location: login_admin.php");
-    exit();
+  header("Location: login_admin.php");
+  exit();
 }
 
 $username = "root";
@@ -14,12 +14,12 @@ $host = "localhost";
 $dbname = "emp";
 
 try {
-    $database = new PDO("mysql:host=$host; dbname=$dbname; charset=utf8", $username, $password);
+  $database = new PDO("mysql:host=$host; dbname=$dbname; charset=utf8", $username, $password);
 } catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
+  die("Connection failed: " . $e->getMessage());
 }
 
-$user_name = $_SESSION['user_name']; 
+$user_name = $_SESSION['user_name'];
 $user_id = $_SESSION['person_id'];
 
 // Step 1: Fetch employee_id from employees table using person_id
@@ -34,9 +34,9 @@ $stmt->execute();
 $employee_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($employee_data) {
-    $employee_id = $employee_data['employee_id'];
+  $employee_id = $employee_data['employee_id'];
 } else {
-    die("Employee not found.");
+  die("Employee not found.");
 }
 
 // Step 2: Fetch vacation data for the employee using employee_id
@@ -61,44 +61,45 @@ $vacations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html>
 
 <head>
-    <title>
+  <title>
     Requested Vacations
-    </title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="requestedVacation.css">
+  </title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="requestedVacation.css">
 </head>
+
 <body>
-<div class="sidebar">
-  <div class="brand">EMS</div>
-  <a href="dashboard_emp.php">Dashboard</a>
-  <a href="assigned_tasks.php">Assigned Tasks</a>
-  <a href="RequestVacation.php">Request Vacation</a>
-  <a href="#">Requested Vacations</a>
-  <a href="profile.php">View Profile</a>
-</div>
-<div class="content">
-<div class="header">
-    <h3>Welcome Back, <?php echo htmlspecialchars($user_name); ?></h3>
-    <div>
-      <span id="currentDate"></span>
-      <button class="btn-signout" onclick="logout()">Logout</button>
+  <div class="sidebar">
+    <div class="brand">EMS</div>
+    <a href="dashboard_emp.php">Dashboard</a>
+    <a href="assigned_tasks.php">Assigned Tasks</a>
+    <a href="RequestVacation.php">Request Vacation</a>
+    <a href="#">Requested Vacations</a>
+    <a href="profile.php">View Profile</a>
+  </div>
+  <div class="content">
+    <div class="header">
+      <h3>Welcome Back, <?php echo htmlspecialchars($user_name); ?></h3>
+      <div>
+        <span id="currentDate"></span>
+        <button class="btn-signout" onclick="logout()">Logout</button>
+      </div>
     </div>
-  </div>
-  <div class ="container" style="align-items: center; padding-left: 50px;">
-    <h2 >Requested Vacations</h2>
-  </div>
-  <table class="table table-striped" style="background-color: #fff;">
-    <thead>
-      <tr>
-      <th scope="col">#</th>
-      <th scope="col">Reason</th>
-      <th scope="col">Start Date</th>
-      <th scope="col">End Date </th>
-      <th scope="col">Status </th>    
-      </tr>
-    </thead>
-    <tbody>
-    <?php
+    <div class="container" style="align-items: center; padding-left: 50px;">
+      <h2>Requested Vacations</h2>
+    </div>
+    <table class="table table-striped" style="background-color: #fff;">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Reason</th>
+          <th scope="col">Start Date</th>
+          <th scope="col">End Date </th>
+          <th scope="col">Status </th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
         if (count($vacations) > 0) {
           $count = 1;
           foreach ($vacations as $vacation) {
@@ -114,23 +115,25 @@ $vacations = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
           echo "<tr><td colspan='5' class='text-center'>No vacation requests found</td></tr>";
         }
-      ?>
-  </tbody>
+        ?>
+      </tbody>
     </table>
-</div>
+  </div>
 
-<script>
-  // Display the current date
-  function updateDate() {
-    const today = new Date();
-    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-    document.getElementById('currentDate').textContent = today.toLocaleDateString('en-GB', options);
-  }
-  updateDate();
+  <script>
+    // Display the current date
+    function updateDate() {
+      const today = new Date();
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+      document.getElementById('currentDate').textContent = today.toLocaleDateString('en-GB', options);
+    }
+    updateDate();
 
-  // Handle logout
-  function logout() {
-    window.location.href = 'login_admin.php';   }
-</script>
+    // Handle logout
+    function logout() {
+      window.location.href = 'login_admin.php';
+    }
+  </script>
 </body>
+
 </html>

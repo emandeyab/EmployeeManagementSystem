@@ -3,9 +3,9 @@
 session_start();
 
 if (!isset($_SESSION['person_id'])) {
-  // Redirect to login page if user is not logged in
-  header("Location: login_admin.php");
-  exit();
+    // Redirect to login page if user is not logged in
+    header("Location: login_admin.php");
+    exit();
 }
 // Handle logout request
 if (isset($_GET['logout'])) {
@@ -45,31 +45,31 @@ if (isset($_GET['id'])) {
         WHERE 
             employee.employee_id =  '$id'
         ";
-        $stmt = $database->prepare($query);
-        
-        $stmt->execute();
-    
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-        if (!$result) {
-            echo "Error fetching employee data. Please try again later.";
-            exit();
-        }
-    
-        //$person_id = htmlspecialchars($result['employee_id']);
+    $stmt = $database->prepare($query);
+
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$result) {
+        echo "Error fetching employee data. Please try again later.";
+        exit();
+    }
+
+    //$person_id = htmlspecialchars($result['employee_id']);
 
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
-    $updated_fname = $_POST['fname'];
-    $updated_lname = $_POST['lname'];
-    $updated_phone = $_POST['phone'];
-    $updated_address = $_POST['address'];
-    $updated_salary = $_POST['salary'];
-    $updated_job = $_POST['job'];
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
+        $updated_fname = $_POST['fname'];
+        $updated_lname = $_POST['lname'];
+        $updated_phone = $_POST['phone'];
+        $updated_address = $_POST['address'];
+        $updated_salary = $_POST['salary'];
+        $updated_job = $_POST['job'];
 
-    
-    $update_query = "
+
+        $update_query = "
         UPDATE person
         SET 
             first_name = :first_name, 
@@ -82,26 +82,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
             person_id = (SELECT person_id FROM employee WHERE employee_id = :employee_id)
     ";
 
-    $update_stmt = $database->prepare($update_query);
-    $update_stmt->bindParam(':first_name', $updated_fname);
-    $update_stmt->bindParam(':last_name', $updated_lname);
-    $update_stmt->bindParam(':phone', $updated_phone);
-    $update_stmt->bindParam(':address', $updated_address);
-    $update_stmt->bindParam(':salary', $updated_salary);
-    $update_stmt->bindParam(':job', $updated_job);
-    $update_stmt->bindParam(':employee_id', $id, PDO::PARAM_INT);
+        $update_stmt = $database->prepare($update_query);
+        $update_stmt->bindParam(':first_name', $updated_fname);
+        $update_stmt->bindParam(':last_name', $updated_lname);
+        $update_stmt->bindParam(':phone', $updated_phone);
+        $update_stmt->bindParam(':address', $updated_address);
+        $update_stmt->bindParam(':salary', $updated_salary);
+        $update_stmt->bindParam(':job', $updated_job);
+        $update_stmt->bindParam(':employee_id', $id, PDO::PARAM_INT);
 
-    if ($update_stmt->execute()) {
-        echo "Profile updated successfully!";
-        
-        header("location: employeecrud.php");  // back to crud page
-    } else {
-        $errorInfo = $update_stmt->errorInfo();
-        echo "Error updating profile: " . $errorInfo[2]; 
+        if ($update_stmt->execute()) {
+            echo "Profile updated successfully!";
+
+            header("location: employeecrud.php");  // back to crud page
+        } else {
+            $errorInfo = $update_stmt->errorInfo();
+            echo "Error updating profile: " . $errorInfo[2];
+        }
+
+
     }
-   
-
-}
 }
 ?>
 <!DOCTYPE html>
@@ -131,13 +131,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
             font-size: 20px;
             cursor: pointer;
         }
-
-
-
-
-
-
-
 
         body {
             color: #566787;
@@ -417,61 +410,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
 </head>
 
 <body>
-<div class="header">
-    <h3>Welcome Back, <?php echo $user_name; ?></h3> <!-- Displaying the employee's name -->
-    <div>
-      <!-- Span for displaying current date -->
-      <span id="currentDate"></span>
-      <!-- Logout Button with JavaScript Redirect -->
-      <button class="btn-signout ms-3" onclick="logout()">Logout</button>
+    <div class="header">
+        <h3>Welcome Back, <?php echo $user_name; ?></h3> <!-- Displaying the employee's name -->
+        <div>
+            <!-- Span for displaying current date -->
+            <span id="currentDate"></span>
+            <!-- Logout Button with JavaScript Redirect -->
+            <button class="btn-signout ms-3" onclick="logout()">Logout</button>
+        </div>
     </div>
-</div>
     <div class="container">
         <div class=" text-center mt-5 ">
             <h1>Update Employee</h1>
         </div>
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="post" action="update_emp.php?id=<?php echo $id;?>">
+                <form method="post" action="update_emp.php?id=<?php echo $id; ?>">
 
                     <div class="modal-body">
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" class="form-control" name="fname" value="<?php echo htmlspecialchars($result['first_name']); ?>">
+                            <input type="text" class="form-control" name="fname"
+                                value="<?php echo htmlspecialchars($result['first_name']); ?>">
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" class="form-control" name="lname" value="<?php echo htmlspecialchars($result['last_name']); ?>">
+                            <input type="text" class="form-control" name="lname"
+                                value="<?php echo htmlspecialchars($result['last_name']); ?>">
                         </div>
                         <div class="form-group">
                             <label>Login ID</label>
-                            <input type="int" class="form-control" name="logi_id" value="<?php echo htmlspecialchars($result['logi_id']); ?>" readonly>
+                            <input type="int" class="form-control" name="logi_id"
+                                value="<?php echo htmlspecialchars($result['logi_id']); ?>" readonly>
                         </div>
                         <div class="form-group">
                             <label>Password</label>
 
-                            <input type="text" class="form-control" name="password" id="password" readonly value="<?php echo htmlspecialchars($result['password']); ?>">
+                            <input type="text" class="form-control" name="password" id="password" readonly
+                                value="<?php echo htmlspecialchars($result['password']); ?>">
                             <span id="eye-icon" class="eye-icon">&#128065;</span>
                         </div>
                         <div class="form-group">
                             <label>Phone</label>
-                            <input type="text" class="form-control" name="phone" value="<?php echo htmlspecialchars($result['phone']); ?>">
+                            <input type="text" class="form-control" name="phone"
+                                value="<?php echo htmlspecialchars($result['phone']); ?>">
                         </div>
                         <div class="form-group">
                             <label>Address</label>
-                            <input type="text" class="form-control" name="address" value="<?php echo htmlspecialchars($result['address']); ?>">
+                            <input type="text" class="form-control" name="address"
+                                value="<?php echo htmlspecialchars($result['address']); ?>">
                         </div>
                         <div class="form-group">
                             <label>Job</label>
-                            <input type="text" class="form-control" name="job" value="<?php echo htmlspecialchars($result['job']); ?>">
+                            <input type="text" class="form-control" name="job"
+                                value="<?php echo htmlspecialchars($result['job']); ?>">
                         </div>
                         <div class="form-group">
                             <label>Department ID</label>
-                            <input type="int" class="form-control" readonly name="department_id" value="<?php echo htmlspecialchars($result['department_id']); ?>">
+                            <input type="int" class="form-control" readonly name="department_id"
+                                value="<?php echo htmlspecialchars($result['department_id']); ?>">
                         </div>
                         <div class="form-group">
                             <label>Salary</label>
-                            <input type="number" class="form-control" name="salary" value="<?php echo htmlspecialchars($result['salary']); ?>" min="0" step="0.01">
+                            <input type="number" class="form-control" name="salary"
+                                value="<?php echo htmlspecialchars($result['salary']); ?>" min="0" step="0.01">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -484,29 +486,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-  // Function to get the current date in the format: Tue, 3 Dec 2024
-  function updateDate() {
-    var today = new Date();
-    var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-    var formattedDate = today.toLocaleDateString('en-GB', options);
-    document.getElementById('currentDate').textContent = formattedDate;
-  }
+    <script>
+        // Function to get the current date in the format: Tue, 3 Dec 2024
+        function updateDate() {
+            var today = new Date();
+            var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+            var formattedDate = today.toLocaleDateString('en-GB', options);
+            document.getElementById('currentDate').textContent = formattedDate;
+        }
 
-  // Call the function on page load
-  updateDate();
+        // Call the function on page load
+        updateDate();
 
-  // JavaScript function to redirect to login page when user logs out
-  function logout() {
-    window.location.href = 'login_admin.php'; // Redirect to the login page
-  }
-</script>
+        // JavaScript function to redirect to login page when user logs out
+        function logout() {
+            window.location.href = 'login_admin.php'; // Redirect to the login page
+        }
+    </script>
     <script>
         const eyeIcon = document.getElementById('eye-icon');
         const passwordInput = document.getElementById('password');
 
         // Add event listener to the eye icon to toggle password visibility
-        eyeIcon.addEventListener('click', function() {
+        eyeIcon.addEventListener('click', function () {
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 eyeIcon.innerHTML = '&#128064;'; // Open eye icon

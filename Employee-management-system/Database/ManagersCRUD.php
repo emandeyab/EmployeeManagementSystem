@@ -4,9 +4,9 @@
 session_start();
 
 if (!isset($_SESSION['person_id'])) {
-  // Redirect to login page if user is not logged in
-  header("Location: login_admin.php");
-  exit();
+    // Redirect to login page if user is not logged in
+    header("Location: login_admin.php");
+    exit();
 }
 // Handle logout request
 if (isset($_GET['logout'])) {
@@ -317,13 +317,13 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
 </head>
 
 <body>
-<div class="header">
-    <h3>Logged in, <?php echo $user_name; ?></h3>
+    <div class="header">
+        <h3>Logged in, <?php echo $user_name; ?></h3>
         <!-- Span for displaying current date -->
         <span id="currentDate"></span>
-            <!-- Logout Button with JavaScript Redirect -->
-            <button class="btn-signout ms-3" onclick="logout()">Logout</button>
-        </div>
+        <!-- Logout Button with JavaScript Redirect -->
+        <button class="btn-signout ms-3" onclick="logout()">Logout</button>
+    </div>
     </div>
     <div class="container">
         <div class="table-responsive">
@@ -334,7 +334,8 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
                             <h2>Manage <b>Managers</b></h2>
                         </div>
                         <div class="col-xs-6">
-                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Manager</span></a>
+                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i
+                                    class="material-icons">&#xE147;</i> <span>Add New Manager</span></a>
 
                             <a href="dashboard.php" class="btn btn-secondary"><i class="fa fa-home"></i></a>
                         </div>
@@ -381,7 +382,7 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
 
                             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             foreach ($result as $row) {
-                        ?>
+                                ?>
                                 <tr>
                                     <td><?php echo $row['manager_id']; ?></td>
                                     <td><?php echo $row['first_name']; ?></td>
@@ -392,12 +393,15 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
                                     <td><?php echo $row['job']; ?></td>
                                     <td><?php echo $row['salary']; ?></td>
                                     <td>
-                                        <a href="update_manager.php?id=<?php echo $row['manager_id']; ?>" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="delete_manager.php?id=<?php echo $row['manager_id']; ?>" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        <a href="update_manager.php?id=<?php echo $row['manager_id']; ?>" class="edit"><i
+                                                class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a href="delete_manager.php?id=<?php echo $row['manager_id']; ?>" class="delete"
+                                            data-toggle="modal"><i class="material-icons" data-toggle="tooltip"
+                                                title="Delete">&#xE872;</i></a>
                                     </td>
                                 </tr>
 
-                        <?php
+                                <?php
                             }
                         }
                         ?>
@@ -490,42 +494,42 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-  // Function to get the current date in the format: Tue, 3 Dec 2024
-  function updateDate() {
-    var today = new Date();
-    var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-    var formattedDate = today.toLocaleDateString('en-GB', options);
-    document.getElementById('currentDate').textContent = formattedDate;
-  }
-
-  // Call the function on page load
-  updateDate();
-
-  // JavaScript function to redirect to login page when user logs out
-  function logout() {
-    window.location.href = 'login_admin.php'; // Redirect to the login page
-  }
-</script>
     <script>
-        $(document).ready(function() {
+        // Function to get the current date in the format: Tue, 3 Dec 2024
+        function updateDate() {
+            var today = new Date();
+            var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+            var formattedDate = today.toLocaleDateString('en-GB', options);
+            document.getElementById('currentDate').textContent = formattedDate;
+        }
+
+        // Call the function on page load
+        updateDate();
+
+        // JavaScript function to redirect to login page when user logs out
+        function logout() {
+            window.location.href = 'login_admin.php'; // Redirect to the login page
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
             // Activate tooltip
             $('[data-toggle="tooltip"]').tooltip();
 
             // Select/Deselect checkboxes
             var checkbox = $('table tbody input[type="checkbox"]');
-            $("#selectAll").click(function() {
+            $("#selectAll").click(function () {
                 if (this.checked) {
-                    checkbox.each(function() {
+                    checkbox.each(function () {
                         this.checked = true;
                     });
                 } else {
-                    checkbox.each(function() {
+                    checkbox.each(function () {
                         this.checked = false;
                     });
                 }
             });
-            checkbox.click(function() {
+            checkbox.click(function () {
                 if (!this.checked) {
                     $("#selectAll").prop("checked", false);
                 }

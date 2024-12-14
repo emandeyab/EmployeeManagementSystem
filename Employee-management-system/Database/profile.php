@@ -165,10 +165,10 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
                 <a href="dashboard_man.php">Dashboard</a>
                 <a href="#">View Profile</a>
                 <a href="viewEmployees.php">View All Employees</a>
-                <a href="assignTasks.html">Assign Tasks</a>
-                <a href="assignAttendanceAndLeave.html">Assign Attendance and Leave</a>
+                <a href="assignTasks.php">Assign Tasks</a>
+                <a href="retrieve_employees.php">Mark Absence</a>
                 <a href="Requested_vacations_manager.php">Requested Vacations</a>
-                <a href="generate_reports.html">Generate Reports</a>
+                <a href="add_report.php">Generate Reports</a>
             <?php elseif ($role == 'employee'): ?>
                 <!-- Employee Sidebar Links -->
                 <a href="dashboard_emp.php">Dashboard</a>

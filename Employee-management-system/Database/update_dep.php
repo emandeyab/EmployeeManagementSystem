@@ -3,9 +3,9 @@
 session_start();
 
 if (!isset($_SESSION['person_id'])) {
-  // Redirect to login page if user is not logged in
-  header("Location: login_admin.php");
-  exit();
+    // Redirect to login page if user is not logged in
+    header("Location: login_admin.php");
+    exit();
 }
 // Handle logout request
 if (isset($_GET['logout'])) {
@@ -39,21 +39,21 @@ if (isset($_GET['id'])) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$result) {
-        die("Query failed: " . $stmt->errorInfo()[2]); 
+        die("Query failed: " . $stmt->errorInfo()[2]);
     } else {
-     
+
     }
 
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
-    $updated_manid = $_POST['manager_id'];
-    $updated_name = $_POST['name'];
-    $updated_location = $_POST['location'];
-    $updated_empnum = $_POST['emps_number'];
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
+        $updated_manid = $_POST['manager_id'];
+        $updated_name = $_POST['name'];
+        $updated_location = $_POST['location'];
+        $updated_empnum = $_POST['emps_number'];
 
-    // Update 
-    $update_query = "
+        // Update 
+        $update_query = "
         UPDATE department
         SET 
             manager_id = :manager_id, 
@@ -64,20 +64,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
              department.department_id =  '$id'
     ";
 
-    $update_stmt = $database->prepare($update_query);
-    $update_stmt->bindParam(':manager_id', $updated_manid);
-    $update_stmt->bindParam(':name', $updated_name);
-    $update_stmt->bindParam(':location', $updated_location);
-    $update_stmt->bindParam(':emps_number', $updated_empnum);
+        $update_stmt = $database->prepare($update_query);
+        $update_stmt->bindParam(':manager_id', $updated_manid);
+        $update_stmt->bindParam(':name', $updated_name);
+        $update_stmt->bindParam(':location', $updated_location);
+        $update_stmt->bindParam(':emps_number', $updated_empnum);
 
-    if ($update_stmt->execute()) {
-        echo "Profile updated successfully!";
-        
-        header("location: depcrud.php");  // back to crud
-    } else {
-        echo "Error updating profile.";
+        if ($update_stmt->execute()) {
+            echo "Profile updated successfully!";
+
+            header("location: depcrud.php");  // back to crud
+        } else {
+            echo "Error updating profile.";
+        }
     }
-}
 }
 ?>
 <!DOCTYPE html>
@@ -107,13 +107,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
             font-size: 20px;
             cursor: pointer;
         }
-
-
-
-
-
-
-
 
         body {
             color: #566787;
@@ -393,39 +386,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
 </head>
 
 <body>
-<div class="header">
-    <h3>Welcome Back, <?php echo $user_name; ?></h3> <!-- Displaying the employee's name -->
-    <div>
-      <!-- Span for displaying current date -->
-      <span id="currentDate"></span>
-      <!-- Logout Button with JavaScript Redirect -->
-      <button class="btn-signout ms-3" onclick="logout()">Logout</button>
+    <div class="header">
+        <h3>Welcome Back, <?php echo $user_name; ?></h3> <!-- Displaying the employee's name -->
+        <div>
+            <!-- Span for displaying current date -->
+            <span id="currentDate"></span>
+            <!-- Logout Button with JavaScript Redirect -->
+            <button class="btn-signout ms-3" onclick="logout()">Logout</button>
+        </div>
     </div>
-</div>
     <div class="container">
         <div class=" text-center mt-5 ">
             <h1>Update Department</h1>
         </div>
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="post" action="update_dep.php?id=<?php echo $id;?>">
+                <form method="post" action="update_dep.php?id=<?php echo $id; ?>">
 
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Manager ID</label>
-                            <input type="number" class="form-control" name="manager_id" value="<?php echo htmlspecialchars($result['manager_id']); ?>">
+                            <input type="number" class="form-control" name="manager_id"
+                                value="<?php echo htmlspecialchars($result['manager_id']); ?>">
                         </div>
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" class="form-control" name="name" value="<?php echo htmlspecialchars($result['name']); ?>">
+                            <input type="text" class="form-control" name="name"
+                                value="<?php echo htmlspecialchars($result['name']); ?>">
                         </div>
                         <div class="form-group">
                             <label>Location</label>
-                            <input type="text" class="form-control" name="location" value="<?php echo htmlspecialchars($result['location']); ?>">
+                            <input type="text" class="form-control" name="location"
+                                value="<?php echo htmlspecialchars($result['location']); ?>">
                         </div>
                         <div class="form-group">
                             <label>Number of Employees</label>
-                            <input type="number" class="form-control" name="emps_number" value="<?php echo htmlspecialchars($result['emps_number']); ?>" min="0" step="0.01">
+                            <input type="number" class="form-control" name="emps_number"
+                                value="<?php echo htmlspecialchars($result['emps_number']); ?>" min="0" step="0.01">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -438,29 +435,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-  // Function to get the current date in the format: Tue, 3 Dec 2024
-  function updateDate() {
-    var today = new Date();
-    var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-    var formattedDate = today.toLocaleDateString('en-GB', options);
-    document.getElementById('currentDate').textContent = formattedDate;
-  }
+    <script>
+        // Function to get the current date in the format: Tue, 3 Dec 2024
+        function updateDate() {
+            var today = new Date();
+            var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+            var formattedDate = today.toLocaleDateString('en-GB', options);
+            document.getElementById('currentDate').textContent = formattedDate;
+        }
 
-  // Call the function on page load
-  updateDate();
+        // Call the function on page load
+        updateDate();
 
-  // JavaScript function to redirect to login page when user logs out
-  function logout() {
-    window.location.href = 'login_admin.php'; // Redirect to the login page
-  }
-</script>
+        // JavaScript function to redirect to login page when user logs out
+        function logout() {
+            window.location.href = 'login_admin.php'; // Redirect to the login page
+        }
+    </script>
     <script>
         const eyeIcon = document.getElementById('eye-icon');
         const passwordInput = document.getElementById('password');
 
         // Add event listener to the eye icon to toggle password visibility
-        eyeIcon.addEventListener('click', function() {
+        eyeIcon.addEventListener('click', function () {
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 eyeIcon.innerHTML = '&#128064;'; // Open eye icon

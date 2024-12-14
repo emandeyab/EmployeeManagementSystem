@@ -8,10 +8,10 @@ if (!isset($_SESSION['person_id'])) {
 }
 
 if (isset($_GET['logout'])) {
-  // Destroy the session and redirect to the login page
-  session_destroy();
-  header("Location: login_admin.php");
-  exit();
+    // Destroy the session and redirect to the login page
+    session_destroy();
+    header("Location: login_admin.php");
+    exit();
 }
 
 // Database credentials
@@ -30,7 +30,7 @@ try {
 
 // Get the logged-in user's person_id
 $person_id = $_SESSION['person_id']; // Assuming person_id is the logged-in user's ID
-$user_name = $_SESSION['user_name']; 
+$user_name = $_SESSION['user_name'];
 
 // Fetch the manager_id from the manager table where the person_id matches
 $sql_manager = "

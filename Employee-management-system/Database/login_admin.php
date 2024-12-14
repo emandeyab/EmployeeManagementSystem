@@ -5,7 +5,7 @@ $username = "root";
 $password = "";
 $database = new PDO("mysql:host=localhost; dbname=emp; charset=utf8;", $username, $password);
 
-if(!$database) {
+if (!$database) {
     die("Connection failed: " . $database->errorInfo());
 }
 
@@ -144,12 +144,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="login-container">
         <h2>Login</h2>
@@ -163,8 +165,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="password">Password:</label>
                 <input type="password" name="password" id="password" required>
             </div>
+            <div class="button-group">
+                <button type="submit">Login</button>
+            </div>
 
-            <button type="submit">Login</button>
         </form>
 
         <?php if (isset($error_message)): ?>
@@ -172,4 +176,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
     </div>
 </body>
+
 </html>

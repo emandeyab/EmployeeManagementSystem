@@ -9,25 +9,24 @@ if (isset($_GET['id'])) {
               on p.person_id=m.person_id
               WHERE m.manager_id = :id";
 
-try {
-    
-    $stmt = $database->prepare($query);
+    try {
 
-    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt = $database->prepare($query);
 
-    
-    if ($stmt->execute()) {
-        echo "Record deleted successfully.";
-        header("location: ManagersCRUD.php");
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
 
-    } else {
-        echo "Error deleting record.";
+
+        if ($stmt->execute()) {
+            echo "Record deleted successfully.";
+            header("location: ManagersCRUD.php");
+
+        } else {
+            echo "Error deleting record.";
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
 } else {
-echo "No ID provided to delete.";
+    echo "No ID provided to delete.";
 }
 ?>
-

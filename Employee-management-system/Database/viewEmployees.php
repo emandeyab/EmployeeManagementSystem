@@ -8,10 +8,10 @@ if (!isset($_SESSION['person_id'])) {
 }
 
 if (isset($_GET['logout'])) {
-  // Destroy the session and redirect to the login page
-  session_destroy();
-  header("Location: login_admin.php");
-  exit();
+    // Destroy the session and redirect to the login page
+    session_destroy();
+    header("Location: login_admin.php");
+    exit();
 }
 
 // Database credentials
@@ -30,7 +30,7 @@ try {
 
 // Get the logged-in user's person_id
 $person_id = $_SESSION['person_id']; // Assuming person_id is the logged-in user's ID
-$user_name = $_SESSION['user_name']; 
+$user_name = $_SESSION['user_name'];
 
 // Fetch the manager_id from the manager table where the person_id matches
 $sql_manager = "
@@ -109,10 +109,10 @@ $employees = $stmt_employees->fetchAll(PDO::FETCH_ASSOC);
         <a href="dashboard_man.php">Dashboard</a>
         <a href="profile.php">View Profile</a>
         <a href="#">View All Employees</a>
-        <a href="assignTasks.html">Assign Tasks</a>
-        <a href="assignAttendanceAndLeave.html">Assign Attendance and Leave</a>
+        <a href="assignTasks.php">Assign Tasks</a>
+        <a href="retrieve_employees.php">Mark Absence</a>
         <a href="Requested_vacations_manager.php">Requested Vacations</a>
-        <a href="generate_reports.html">Generate Reports</a>
+        <a href="add_report.php">Generate Reports</a>
     </div>
     <div class="content">
         <div class="header">
@@ -138,7 +138,7 @@ $employees = $stmt_employees->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
             </thead>
             <tbody>
-            <?php
+                <?php
                 // Loop through employees to fetch their details from the person table
                 foreach ($employees as $index => $employee) {
                     // Fetch employee details from person table
@@ -147,7 +147,7 @@ $employees = $stmt_employees->fetchAll(PDO::FETCH_ASSOC);
                     SELECT first_name, last_name, phone_number, job_title
                     FROM person
                     WHERE person_id = :person_id";
-                    
+
                     $stmt_person = $database->prepare($sql_person);
                     $stmt_person->bindParam(':person_id', $person_id, PDO::PARAM_INT);
                     $stmt_person->execute();
@@ -162,14 +162,14 @@ $employees = $stmt_employees->fetchAll(PDO::FETCH_ASSOC);
                         $phone_number = "N/A";
                         $job_title = "N/A";
                     }
-                ?>
-                <tr>
-                    <th scope="row"><?php echo $index + 1; ?></th>
-                    <td><?php echo htmlspecialchars($person_id); ?></td>
-                    <td><?php echo htmlspecialchars($employee_name); ?></td>
-                    <td><?php echo htmlspecialchars($phone_number); ?></td>
-                    <td><?php echo htmlspecialchars($job_title); ?></td>
-                </tr>
+                    ?>
+                    <tr>
+                        <th scope="row"><?php echo $index + 1; ?></th>
+                        <td><?php echo htmlspecialchars($person_id); ?></td>
+                        <td><?php echo htmlspecialchars($employee_name); ?></td>
+                        <td><?php echo htmlspecialchars($phone_number); ?></td>
+                        <td><?php echo htmlspecialchars($job_title); ?></td>
+                    </tr>
                 <?php } ?>
             </tbody>
         </table>
