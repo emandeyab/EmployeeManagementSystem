@@ -78,6 +78,18 @@ CREATE TABLE `employee` (
   `password` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+
+-- Reports table.
+CREATE TABLE reports (
+    report_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT,
+    report_content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
+);
+
+
+
 --
 -- Dumping data for table `employee`
 --
