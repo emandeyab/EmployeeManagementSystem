@@ -1,5 +1,4 @@
 <?php
-//include("config.php"); // Ensure config.php initializes the PDO connection in $pdo
 
 if (isset($_POST['add_manager'])) {
     $fname = $_POST['fname'];

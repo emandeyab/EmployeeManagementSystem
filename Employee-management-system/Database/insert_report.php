@@ -128,11 +128,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: rgb(5, 47, 92);
         }
 
-        /* Center the header */
         h1 {
             text-align: center;
             margin-bottom: 20px;
-            /* Spacing between header and table */
         }
     </style>
 </head>

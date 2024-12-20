@@ -1,7 +1,6 @@
 <?php
 include 'config.php';
 
-// Fetch employee details from person and employee tables
 $sql = "SELECT e.employee_id, p.first_name, p.last_name
         FROM employee e
         JOIN person p ON e.person_id = p.person_id";

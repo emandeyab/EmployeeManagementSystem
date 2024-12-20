@@ -1,24 +1,21 @@
 <?php
-// Ensure the user is logged in
-session_start(); // Start the session
+session_start(); 
 if (!isset($_SESSION['person_id'])) {
-    // Redirect to login page if user is not logged in
     header("Location: login_admin.php");
     exit();
 }
 
 if (isset($_GET['logout'])) {
-    // Destroy the session and redirect to the login page
     session_destroy();
     header("Location: login_admin.php");
     exit();
 }
 
 // Database credentials
-$username = "root"; // Replace with your database username
-$password = ""; // Replace with your database password
-$host = "localhost"; // Usually localhost for local development
-$dbname = "emp"; // Replace with your database name
+$username = "root"; 
+$password = ""; 
+$host = "localhost";
+$dbname = "emp"; 
 
 // Create a PDO instance for database connection
 try {
@@ -29,7 +26,7 @@ try {
 }
 
 // Get the logged-in user's person_id
-$person_id = $_SESSION['person_id']; // Assuming person_id is the logged-in user's ID
+$person_id = $_SESSION['person_id']; 
 $user_name = $_SESSION['user_name'];
 
 // Fetch the manager_id from the manager table where the person_id matches
@@ -39,7 +36,7 @@ SELECT
 FROM
     manager
 WHERE
-    person_id = :person_id"; // We are matching person_id to get the manager_id
+    person_id = :person_id"; 
 
 $stmt_manager = $database->prepare($sql_manager);
 $stmt_manager->bindParam(':person_id', $person_id, PDO::PARAM_INT);
@@ -47,10 +44,8 @@ $stmt_manager->execute();
 $manager = $stmt_manager->fetch(PDO::FETCH_ASSOC);
 
 if ($manager) {
-    // Manager's ID
     $manager_id = $manager['manager_id'];
 } else {
-    // If the manager is not found for the given person_id
     $_SESSION['error'] = "Manager not found.";
     header("Location: login_admin.php");
     exit();
@@ -63,7 +58,7 @@ SELECT
 FROM
     department
 WHERE
-    manager_id = :manager_id";  // Fetch department_id where manager_id matches
+    manager_id = :manager_id";  
 
 $stmt_department = $database->prepare($sql_department);
 $stmt_department->bindParam(':manager_id', $manager_id, PDO::PARAM_INT);
@@ -71,10 +66,8 @@ $stmt_department->execute();
 $department = $stmt_department->fetch(PDO::FETCH_ASSOC);
 
 if ($department) {
-    // Manager's department_id
     $manager_department_id = $department['department_id'];
 } else {
-    // If the manager doesn't have a department assigned
     $_SESSION['error'] = "Manager's department not found.";
     header("Location: login_admin.php");
     exit();
@@ -98,7 +91,7 @@ JOIN
     person p ON e.person_id = p.person_id
 WHERE
     v.status = 'pending'
-    AND e.department_id = :manager_department_id";  // Filter by manager's department ID
+    AND e.department_id = :manager_department_id"; 
 
 $stmt_vacations = $database->prepare($sql_vacations);
 $stmt_vacations->bindParam(':manager_department_id', $manager_department_id, PDO::PARAM_INT);
@@ -108,9 +101,9 @@ $result = $stmt_vacations->fetchAll(PDO::FETCH_ASSOC);
 // Handle approval or denial of vacation requests
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $request_id = $_POST['vacation_id'];
-    $action = $_POST['action']; // 'approve' or 'deny'
+    $action = $_POST['action'];
 
-    $new_status = $action === 'approve' ? 'Approved' : 'Rejected'; // Correct the rejection status
+    $new_status = $action === 'approve' ? 'Approved' : 'Rejected'; 
 
     // Update the status of the vacation request
     $update_sql = "UPDATE vacations SET status = :status WHERE vacation_id = :vacation_id";

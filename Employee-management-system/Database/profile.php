@@ -1,25 +1,22 @@
 <?php
-session_start(); // Start the session to access session variables
+session_start(); 
 
-// Check if the user is logged in (session ID is set)
 if (!isset($_SESSION['person_id'])) {
-    // Redirect to login page if not logged in
     header("Location: login_admin.php");
     exit();
 }
 
 if (isset($_GET['logout'])) {
-    // Destroy the session and redirect to the login page
     session_destroy();
     header("Location: login_admin.php");
     exit();
 }
 
 // Database connection
-$username = "root"; // Replace with your database username
-$password = ""; // Replace with your database password
-$host = "localhost"; // Usually localhost for local development
-$dbname = "emp"; // Replace with your database name
+$username = "root";
+$password = "";
+$host = "localhost"; 
+$dbname = "emp"; 
 
 try {
     $database = new PDO("mysql:host=$host; dbname=$dbname; charset=utf8", $username, $password);
@@ -27,9 +24,7 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
-// Retrieve user data based on the session admin ID
-$user_id = $_SESSION['person_id']; // Get the admin ID from session
-
+$user_id = $_SESSION['person_id'];
 $query = "
     SELECT 
         person.person_id, 
@@ -62,7 +57,6 @@ $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user) {
-    // Assign variables for easy access
     $fname = $user['first_name'];
     $lname = $user['last_name'];
     $email = $user['email'];
@@ -136,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile']) && $
         echo "Error updating profile: " . $e->getMessage();
     }
 }
-$user_name = $_SESSION['user_name']; // Assuming the user's name is stored in the session
+$user_name = $_SESSION['user_name']; 
 ?>
 <!DOCTYPE html>
 <html>
@@ -312,12 +306,10 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
             document.getElementById('currentDate').textContent = formattedDate;
         }
 
-        // Call the function on page load
         updateDate();
 
-        // JavaScript function to redirect to login page when user logs out
         function logout() {
-            window.location.href = 'login_admin.php'; // Redirect to the login page
+            window.location.href = 'login_admin.php'; 
         }
     </script>
 </body>

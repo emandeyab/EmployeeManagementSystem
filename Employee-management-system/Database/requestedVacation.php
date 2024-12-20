@@ -1,8 +1,6 @@
 <?php
-// Start the session
 session_start();
 
-// Ensure the user is logged in
 if (!isset($_SESSION['person_id'])) {
   header("Location: login_admin.php");
   exit();
@@ -22,7 +20,6 @@ try {
 $user_name = $_SESSION['user_name'];
 $user_id = $_SESSION['person_id'];
 
-// Step 1: Fetch employee_id from employees table using person_id
 $query = "
     SELECT employee_id
     FROM employee
@@ -39,7 +36,6 @@ if ($employee_data) {
   die("Employee not found.");
 }
 
-// Step 2: Fetch vacation data for the employee using employee_id
 $query = "
     SELECT 
         vac.vacation_id,

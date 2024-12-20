@@ -1,23 +1,18 @@
 <?php include("config.php"); ?>
 <?php
-// Start the session to track user data (you must include session_start() at the beginning of the file)
 session_start();
 
 if (!isset($_SESSION['person_id'])) {
-    // Redirect to login page if user is not logged in
     header("Location: login_admin.php");
     exit();
 }
-// Handle logout request
 if (isset($_GET['logout'])) {
-    // Destroy the session and redirect to the login page
     session_destroy();
     header("Location: login_admin.php");
     exit();
 }
 
-// Get the employee's name from the session
-$user_name = $_SESSION['user_name']; // Assuming the user's name is stored in the session
+$user_name = $_SESSION['user_name'];
 ?>
 
 <!DOCTYPE html>
@@ -319,9 +314,7 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
 <body>
     <div class="header">
         <h3>Logged in, <?php echo $user_name; ?></h3>
-        <!-- Span for displaying current date -->
         <span id="currentDate"></span>
-        <!-- Logout Button with JavaScript Redirect -->
         <button class="btn-signout ms-3" onclick="logout()">Logout</button>
     </div>
     </div>
@@ -495,7 +488,7 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Function to get the current date in the format: Tue, 3 Dec 2024
+        // Function to get the current date in the format
         function updateDate() {
             var today = new Date();
             var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
@@ -503,12 +496,10 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
             document.getElementById('currentDate').textContent = formattedDate;
         }
 
-        // Call the function on page load
         updateDate();
 
-        // JavaScript function to redirect to login page when user logs out
         function logout() {
-            window.location.href = 'login_admin.php'; // Redirect to the login page
+            window.location.href = 'login_admin.php';
         }
     </script>
     <script>

@@ -1,6 +1,5 @@
 <?php
 
-// Include the vacation requests logic
 include "vacation_requests.php";
 ?>
 
@@ -217,13 +216,10 @@ include "vacation_requests.php";
             <a href="add_report.php">Generate Reports</a>
 
         </div>
-        <!-- Header Section -->
         <div class="header">
-            <h3>Welcome Back, <?php echo $user_name; ?></h3> <!-- Displaying the employee's name -->
+            <h3>Welcome Back, <?php echo $user_name; ?></h3>
             <div>
-                <!-- Span for displaying current date -->
                 <span id="currentDate"></span>
-                <!-- Logout Button with JavaScript Redirect -->
                 <button class="btn-signout ms-3" onclick="logout()">Logout</button>
             </div>
         </div>
@@ -249,7 +245,7 @@ include "vacation_requests.php";
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if ($result && !empty($result)): // Check if there are any results ?>
+                        <?php if ($result && !empty($result)):  ?>
                             <?php foreach ($result as $row): ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($row['first_name']); ?></td>

@@ -406,9 +406,7 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
 <body>
     <div class="header">
         <h3>Logged in, <?php echo $user_name; ?></h3>
-        <!-- Span for displaying current date -->
         <span id="currentDate"></span>
-        <!-- Logout Button with JavaScript Redirect -->
         <button class="btn-signout ms-3" onclick="logout()">Logout</button>
     </div>
     </div>
@@ -493,7 +491,7 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
     });
 
 
-    // Function to get the current date in the format: Tue, 3 Dec 2024
+    // Function to get the current date in the format
     function updateDate() {
         var today = new Date();
         var options = {
@@ -506,12 +504,10 @@ $user_name = $_SESSION['user_name']; // Assuming the user's name is stored in th
         document.getElementById('currentDate').textContent = formattedDate;
     }
 
-    // Call the function on page load
     updateDate();
 
-    // JavaScript function to redirect to login page when user logs out
     function logout() {
-        window.location.href = 'login_admin.php'; // Redirect to the login page
+        window.location.href = 'login_admin.php';
     }
 </script>
 

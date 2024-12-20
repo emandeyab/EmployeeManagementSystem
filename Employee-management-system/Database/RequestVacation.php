@@ -1,28 +1,23 @@
 <?php
-// Start the session to track user data
 session_start();
 
-// Ensure the user is logged in
 if (!isset($_SESSION['person_id'])) {
-  // Redirect to login page if user is not logged in
   header("Location: login_admin.php");
   exit();
 }
 
 if (isset($_GET['logout'])) {
-  // Destroy the session and redirect to the login page
   session_destroy();
   header("Location: login_admin.php");
   exit();
 }
 
 // Database credentials
-$username = "root"; // Replace with your database username
-$password = ""; // Replace with your database password
-$host = "localhost"; // Usually localhost for local development
-$dbname = "emp"; // Replace with your database name
+$username = "root";
+$password = ""; 
+$host = "localhost";
+$dbname = "emp"; 
 
-// Create a PDO instance for database connection
 try {
   $database = new PDO("mysql:host=$host; dbname=$dbname; charset=utf8", $username, $password);
 } catch (PDOException $e) {
@@ -266,7 +261,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   </div>
   <script>
-    // Wait until the DOM is fully loaded before executing the script
     // Display the current date
     function updateDate() {
       const today = new Date();

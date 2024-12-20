@@ -1,12 +1,24 @@
 <?php
 include 'config.php';
 
-// Query to fetch employee data
-$sql = "SELECT person_id, first_name, last_name FROM person WHERE role = 'employee'";
+session_start();
+$current_manager_person_id = $_SESSION['person_id'];
+
+// Query to fetch employees in the same department as the manager
+$sql = "
+    SELECT e.employee_id, p.first_name, p.last_name 
+    FROM employee e
+    JOIN person p ON e.person_id = p.person_id
+    JOIN department d ON e.department_id = d.department_id
+    JOIN manager m ON d.manager_id = m.manager_id
+    WHERE m.person_id = :manager_person_id
+";
 $stmt = $database->prepare($sql);
+$stmt->bindParam(':manager_person_id', $current_manager_person_id, PDO::PARAM_INT);
 $stmt->execute();
 $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -115,7 +127,6 @@ $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
         h1 {
             text-align: center;
             margin-bottom: 20px;
-            /* Spacing between header and table */
         }
     </style>
 </head>
@@ -145,17 +156,19 @@ $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tbody>
             <?php foreach ($employees as $employee): ?>
                 <tr>
-                    <td><?= htmlspecialchars($employee['person_id']) ?></td>
+                    <td><?= htmlspecialchars($employee['employee_id']) ?></td>
                     <td><?= htmlspecialchars($employee['first_name']) . ' ' . htmlspecialchars($employee['last_name']) ?>
                     </td>
                     <td>
                         <form action="update_absent.php" method="POST">
-                            <input type="hidden" name="person_id" value="<?= htmlspecialchars($employee['person_id']) ?>">
+                            <input type="hidden" name="employee_id"
+                                value="<?= htmlspecialchars($employee['employee_id']) ?>">
                             <button type="submit">Mark Absent</button>
                         </form>
                     </td>
                 </tr>
             <?php endforeach; ?>
+
         </tbody>
     </table>
 </body>
