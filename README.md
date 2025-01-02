@@ -1,7 +1,7 @@
-# Employee Management System
+# Employee Management Platform
 
 ## Overview
-The Employee Management System (EMS) is a platform designed to simplify workforce management. It allows users to log in and access their personal and job-related information. Employees can submit leave requests and manage their assigned tasks, while managers handle leave approvals, evaluate employee performance, and assign tasks. Admins have full control over managing employee, department, and manager records. The system ensures efficient operations.
+The Employee Management Platform is a platform designed to simplify workforce management. It allows users to log in and access their personal and job-related information. Employees can submit leave requests and manage their assigned tasks, while managers handle leave approvals, evaluate employee performance, and assign tasks. Admins have full control over managing employee, department, and manager records. The system ensures efficient operations.
 
 ## **Project Features**  
 
